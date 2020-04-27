@@ -2,6 +2,8 @@
 
 Tabs web component. Based heavily on the [Tabs with Automatic Activation example](https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-1/tabs.html) from [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices/#tabpanel)
 
+* [Demo](https://zachleat.github.io/seven-minute-tabs/demo.html)
+
 ## Installation
 
 ```
