@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+		<script src="seven-minute-tabs.js" async></script>
+	</head>
+	<body>
+		<h1>Seven Minute Tabs demo</h1>
+
+		<seven-minute-tabs>
+			<div role="tablist" aria-label="What does this tab chooser do?">
+				<a href="#first-tab" id="first-tab-btn" role="tab" aria-controls="first-tab" aria-selected="true">First tab</a>
+				<a href="#second-tab" id="second-tab-btn" role="tab" aria-controls="second-tab" aria-selected="false">Second tab</a>
+				<a href="#third-tab" id="third-tab-btn" role="tab" aria-controls="third-tab" aria-selected="false">Third tab</a>
+			</div>
+			<div id="first-tab" role="tabpanel" aria-labelledby="first-tab-btn">
+				First tab content
+			</div>
+			<div id="second-tab" role="tabpanel" aria-labelledby="second-tab-btn">
+				Second tab content
+			</div>
+			<div id="third-tab" role="tabpanel" aria-labelledby="third-tab-btn">
+				Third tab content
+			</div>
+		</seven-minute-tabs>
+	</body>
+</html>
