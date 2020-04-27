@@ -1,0 +1,23 @@
+{
+  "name": "@zachleat/seven-minute-tabs",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "A style-free tabs component based heavily on WAI-ARIA Authoring Practices documentation.",
+  "main": "seven-minute-tabs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zachleat/seven-minute-tabs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "W3C-20150513",
+  "bugs": {
+    "url": "https://github.com/zachleat/seven-minute-tabs/issues"
+  },
+  "homepage": "https://github.com/zachleat/seven-minute-tabs#readme"
+}

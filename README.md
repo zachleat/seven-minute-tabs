@@ -12,3 +12,7 @@ Based heavily on the [Tabs with Automatic Activation example](https://www.w3.org
 * Arrow key support. Adjusts for vertical `aria-orientation` values.
 * Home/end key support.
 * (Option to delete tabs was removed from the original example)
+
+## License
+
+* [W3C](https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document)
