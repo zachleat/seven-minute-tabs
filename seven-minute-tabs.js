@@ -6,7 +6,17 @@
 class SevenMinuteTabs extends HTMLElement {
   constructor() {
     super();
-
+    
+    this._init = this._init.bind(this);
+    this._observer = new MutationObserver(this._init);
+  }
+  connectedCallback() {
+    if (this.children.length) {
+      this._init();
+    }
+    this._observer.observe(this, { childList: true });
+  }
+  _init() {
     this.tablist = this.querySelector('[role="tablist"]');
     this.buttons = this.querySelectorAll('[role="tab"]');
     this.panels = this.querySelectorAll('[role="tabpanel"]');
