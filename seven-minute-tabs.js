@@ -18,8 +18,8 @@ class SevenMinuteTabs extends HTMLElement {
   }
   _init() {
     this.tablist = this.querySelector('[role="tablist"]');
-    this.buttons = this.querySelectorAll('[role="tab"]');
-    this.panels = this.querySelectorAll('[role="tabpanel"]');
+    this.buttons = this.tablist.querySelectorAll('[role="tab"]');
+    this.panels = this.querySelectorAll(':scope > [role="tabpanel"]');
     this.delay = this.determineDelay();
 
     if(!this.tablist || !this.buttons.length || !this.panels.length) {
@@ -66,7 +66,7 @@ class SevenMinuteTabs extends HTMLElement {
   }
 
   initPanels() {
-    let selectedPanelId = this.querySelector('[role="tab"][aria-selected="true"]').getAttribute("aria-controls");
+    let selectedPanelId = this.tablist.querySelector('[role="tab"][aria-selected="true"]').getAttribute("aria-controls");
     for(let panel of this.panels) {
       if(panel.getAttribute("id") !== selectedPanelId) {
         panel.setAttribute("hidden", "");
