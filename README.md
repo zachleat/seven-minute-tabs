@@ -21,6 +21,11 @@ npm install @zachleat/seven-minute-tabs
 * Home/end key support.
 * (Option to delete tabs was removed from the original example)
 
+## Changelog
+
+* `v2.0.0` Previous versions of this component required the `aria-selected`, `aria-labelledby`, `aria-controls`, and button/tab `id` attributes to exist in server rendered markup. If they don’t exist, they are now added automatically.
+
+
 ## License
 
 * [W3C](https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document)
