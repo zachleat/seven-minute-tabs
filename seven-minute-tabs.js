@@ -10,25 +10,6 @@ class SevenMinuteTabs extends HTMLElement {
     this._init = this._init.bind(this);
     this._observer = new MutationObserver(this._init);
   }
-  connectedCallback() {
-    if (this.children.length) {
-      this._init();
-    }
-    this._observer.observe(this, { childList: true });
-  }
-  _init() {
-    this.tablist = this.querySelector('[role="tablist"]');
-    this.buttons = this.querySelectorAll('[role="tab"]');
-    this.panels = this.querySelectorAll('[role="tabpanel"]');
-    this.delay = this.determineDelay();
-
-    if(!this.tablist || !this.buttons.length || !this.panels.length) {
-      return;
-    }
-
-    this.initButtons();
-    this.initPanels();
-  }
 
   get keys() {
     return {
@@ -51,12 +32,65 @@ class SevenMinuteTabs extends HTMLElement {
     };
   }
 
+  connectedCallback() {
+    if (this.children.length) {
+      this._init();
+    }
+    this._observer.observe(this, { childList: true });
+  }
+
+  _init() {
+    this.tablist = this.querySelector('[role="tablist"]');
+    this.buttons = this.querySelectorAll('[role="tab"]');
+    this.panels = this.querySelectorAll('[role="tabpanel"]');
+    this.delay = this.determineDelay();
+
+    if(!this.tablist || !this.buttons.length || !this.panels.length) {
+      return;
+    }
+
+    // This order is important
+    this.initButtons();
+    this.initPanels();
+  }
+
+  getTabIdFromHref(hash) {
+    let index = hash.indexOf("#");
+    if(index > -1) {
+      return hash.substr(index + 1);
+    }
+    return hash;
+  }
+
+  getButtonIdFromTabId(tabId) {
+    return `${tabId}-btn`;
+  }
+
   initButtons() {
     let count = 0;
+    let hasASelectedButton = Array.from(this.buttons).filter(btn => btn.getAttribute("aria-selected") === "true").length > 0;
+
     for(let button of this.buttons) {
       let isSelected = button.getAttribute("aria-selected") === "true";
+      if(!hasASelectedButton && count === 0) {
+        isSelected = true;
+      }
+
+      // Attributes
+      if(!button.hasAttribute("aria-selected")) {
+        button.setAttribute("aria-selected", isSelected);
+      }
       button.setAttribute("tabindex", isSelected ? "0" : "-1");
 
+      let tabId = this.getTabIdFromHref(button.getAttribute("href"));
+      if(!button.hasAttribute("aria-controls")) {
+        button.setAttribute("aria-controls", tabId);
+      }
+      if(!button.hasAttribute("id")) {
+        button.setAttribute("id", this.getButtonIdFromTabId(tabId));
+      }
+
+      // Events
       button.addEventListener('click', this.clickEventListener.bind(this));
       button.addEventListener('keydown', this.keydownEventListener.bind(this));
       button.addEventListener('keyup', this.keyupEventListener.bind(this));
@@ -72,6 +106,11 @@ class SevenMinuteTabs extends HTMLElement {
         panel.setAttribute("hidden", "");
       }
       panel.setAttribute("tabindex", "0");
+
+      if(!panel.hasAttribute("aria-labelledby")) {
+        let tabId = panel.getAttribute("id");
+        panel.setAttribute("aria-labelledby", this.getButtonIdFromTabId(tabId));
+      }
     }
   }
 

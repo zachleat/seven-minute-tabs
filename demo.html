@@ -10,18 +10,19 @@
 		<h1>Seven Minute Tabs</h1>
 
 		<seven-minute-tabs>
-			<div role="tablist" aria-label="What does this tab chooser do?">
-				<a href="#first-tab" id="first-tab-btn" role="tab" aria-controls="first-tab" aria-selected="true">First tab</a>
-				<a href="#second-tab" id="second-tab-btn" role="tab" aria-controls="second-tab" aria-selected="false">Second tab</a>
-				<a href="#third-tab" id="third-tab-btn" role="tab" aria-controls="third-tab" aria-selected="false">Third tab</a>
-			</div>
-			<div id="first-tab" role="tabpanel" aria-labelledby="first-tab-btn">
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab" role="tab">First tab</a></li>
+				<li><a href="#second-tab" role="tab">Second tab</a></li>
+				<li><a href="#third-tab" role="tab">Third tab</a></li>
+			</ol>
+
+			<div id="first-tab" role="tabpanel">
 				First tab content
 			</div>
-			<div id="second-tab" role="tabpanel" aria-labelledby="second-tab-btn">
+			<div id="second-tab" role="tabpanel">
 				Second tab content
 			</div>
-			<div id="third-tab" role="tabpanel" aria-labelledby="third-tab-btn">
+			<div id="third-tab" role="tabpanel">
 				Third tab content
 			</div>
 		</seven-minute-tabs>
