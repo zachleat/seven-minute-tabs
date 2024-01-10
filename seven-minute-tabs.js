@@ -259,10 +259,13 @@ class SevenMinuteTabs extends HTMLElement {
     var controls = tab.getAttribute('aria-controls');
 
     // Remove hidden attribute from tab panel to make it visible
-    document.getElementById(controls).removeAttribute('hidden');
+    var panel = document.getElementById(controls);
+    if(panel) {
+      panel.removeAttribute('hidden');
 
-    if(this.persistSelection) {
-      sessionStorage.setItem("seven-minute-tabs-persisted", tab.getAttribute("data-tabs-persist") || this.getTabIdFromHref(tab.getAttribute("href")));
+      if(this.persistSelection) { // panel must exist to persist
+        sessionStorage.setItem("seven-minute-tabs-persisted", tab.getAttribute("data-tabs-persist") || this.getTabIdFromHref(tab.getAttribute("href")));
+      }
     }
 
     // Set focus when required
