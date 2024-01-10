@@ -45,6 +45,15 @@ class SevenMinuteTabs extends HTMLElement {
     this.panels = this.querySelectorAll('[role="tabpanel"]');
     this.delay = this.determineDelay();
     this.persistSelection = this.hasAttribute("persist");
+    this.pruneMismatchedButtons = this.hasAttribute("prune");
+
+    if(this.pruneMismatchedButtons) {
+      for(let button of this.buttons) {
+        if(!this.querySelector(button.getAttribute("href"))) {
+          button.closest("li").remove();
+        }
+      }
+    }
 
     if(!this.tablist || !this.buttons.length || !this.panels.length) {
       return;
@@ -75,7 +84,7 @@ class SevenMinuteTabs extends HTMLElement {
       let persisted = sessionStorage.getItem("seven-minute-tabs-persisted");
       if(persisted) {
         for(let button of this.buttons) {
-          let compare = button.getAttribute("data-tabs-persist") || button.getAttribute("href").slice(1);
+          let compare = button.getAttribute("data-tabs-persist") || this.getTabIdFromHref(button.getAttribute("href"));
           if(compare == persisted) {
             button.setAttribute("aria-selected", "true");
             hasASelectedButton = true;
@@ -253,7 +262,7 @@ class SevenMinuteTabs extends HTMLElement {
     document.getElementById(controls).removeAttribute('hidden');
 
     if(this.persistSelection) {
-      sessionStorage.setItem("seven-minute-tabs-persisted", tab.getAttribute("data-tabs-persist") || tab.getAttribute("href").slice(1));
+      sessionStorage.setItem("seven-minute-tabs-persisted", tab.getAttribute("data-tabs-persist") || this.getTabIdFromHref(tab.getAttribute("href")));
     }
 
     // Set focus when required

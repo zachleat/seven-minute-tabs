@@ -46,6 +46,22 @@
 			</div>
 		</seven-minute-tabs>
 
+		<h2>Prune buttons that don’t have a matching panel</h2>
+		<seven-minute-tabs prune>
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab-c" role="tab">First tab</a></li>
+				<li><a href="#second-tab-c" role="tab">Second tab</a></li>
+				<li><a href="#missing" role="tab">Third tab</a></li>
+			</ol>
+
+			<div id="first-tab-c" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-c" role="tabpanel">
+				Second tab content
+			</div>
+		</seven-minute-tabs>
+
 		<p>Why is this unstyled? Read more at the <a href="https://github.com/zachleat/seven-minute-tabs">documentation on GitHub</a></p>
 	</body>
 </html>
