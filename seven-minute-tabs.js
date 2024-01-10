@@ -50,7 +50,7 @@ class SevenMinuteTabs extends HTMLElement {
     if(this.pruneMismatchedButtons) {
       for(let button of this.buttons) {
         if(!this.querySelector(button.getAttribute("href"))) {
-          button.closest("li").remove();
+          (button.closest("li") || button)?.remove();
         }
       }
     }
