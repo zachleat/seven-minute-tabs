@@ -27,6 +27,25 @@
 			</div>
 		</seven-minute-tabs>
 
+		<h2>Persists across page views</h2>
+		<seven-minute-tabs persist>
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab-b" role="tab">First tab</a></li>
+				<li><a href="#second-tab-b" role="tab" data-tabs-persist="explicitgroup">Second tab</a></li>
+				<li><a href="#third-tab-b" role="tab">Third tab</a></li>
+			</ol>
+
+			<div id="first-tab-b" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-b" role="tabpanel">
+				Second tab content
+			</div>
+			<div id="third-tab-b" role="tabpanel">
+				Third tab content
+			</div>
+		</seven-minute-tabs>
+
 		<p>Why is this unstyled? Read more at the <a href="https://github.com/zachleat/seven-minute-tabs">documentation on GitHub</a></p>
 	</body>
 </html>

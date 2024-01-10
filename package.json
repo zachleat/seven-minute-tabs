@@ -7,7 +7,7 @@
   "description": "A no-theme tabs component based heavily on an example from the WAI-ARIA Authoring Practices documentation.",
   "main": "seven-minute-tabs.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx http-server ."
   },
   "repository": {
     "type": "git",

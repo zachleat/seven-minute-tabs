@@ -6,7 +6,7 @@
 class SevenMinuteTabs extends HTMLElement {
   constructor() {
     super();
-    
+
     this._init = this._init.bind(this);
     this._observer = new MutationObserver(this._init);
   }
@@ -44,6 +44,7 @@ class SevenMinuteTabs extends HTMLElement {
     this.buttons = this.querySelectorAll('[role="tab"]');
     this.panels = this.querySelectorAll('[role="tabpanel"]');
     this.delay = this.determineDelay();
+    this.persistSelection = this.hasAttribute("persist");
 
     if(!this.tablist || !this.buttons.length || !this.panels.length) {
       return;
@@ -68,7 +69,25 @@ class SevenMinuteTabs extends HTMLElement {
 
   initButtons() {
     let count = 0;
-    let hasASelectedButton = Array.from(this.buttons).filter(btn => btn.getAttribute("aria-selected") === "true").length > 0;
+    let hasASelectedButton = false;
+
+    if(this.persistSelection) {
+      let persisted = sessionStorage.getItem("seven-minute-tabs-persisted");
+      if(persisted) {
+        for(let button of this.buttons) {
+          let compare = button.getAttribute("data-tabs-persist") || button.getAttribute("href").slice(1);
+          if(compare == persisted) {
+            button.setAttribute("aria-selected", "true");
+            hasASelectedButton = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if(!hasASelectedButton) {
+      hasASelectedButton = Array.from(this.buttons).filter(btn => btn.getAttribute("aria-selected") === "true").length > 0;
+    }
 
     for(let button of this.buttons) {
       let isSelected = button.getAttribute("aria-selected") === "true";
@@ -232,6 +251,10 @@ class SevenMinuteTabs extends HTMLElement {
 
     // Remove hidden attribute from tab panel to make it visible
     document.getElementById(controls).removeAttribute('hidden');
+
+    if(this.persistSelection) {
+      sessionStorage.setItem("seven-minute-tabs-persisted", tab.getAttribute("data-tabs-persist") || tab.getAttribute("href").slice(1));
+    }
 
     // Set focus when required
     if (setFocus) {
