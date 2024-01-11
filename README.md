@@ -23,6 +23,7 @@ npm install @zachleat/seven-minute-tabs
 
 ## Changelog
 
+* `v3.0.0` New tab selection persistence (via `persist` attribute) logic with `data-tab-persist="group:value"`. Defaults to `localStorage`. Use `persist="session"` for `sessionStorage`.
 * `v2.0.2` Add `prune` attribute option to remove buttons that don’t have a matching panel.
 * `v2.0.1` Add `persist` attribute option to persist selected tab to sessionStorage.
 * `v2.0.0` Previous versions of this component required the `aria-selected`, `aria-labelledby`, `aria-controls`, and button/tab `id` attributes to exist in server rendered markup. If they don’t exist, they are now added automatically.

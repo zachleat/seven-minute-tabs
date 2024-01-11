@@ -1,6 +1,6 @@
 {
   "name": "@zachleat/seven-minute-tabs",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "publishConfig": {
     "access": "public"
   },
