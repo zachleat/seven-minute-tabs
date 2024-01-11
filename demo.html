@@ -30,18 +30,56 @@
 		<h2>Persists across page views</h2>
 		<seven-minute-tabs persist>
 			<ol role="tablist" aria-label="What does this tab chooser do?">
-				<li><a href="#first-tab-b" role="tab">First tab</a></li>
-				<li><a href="#second-tab-b" role="tab" data-tabs-persist="explicitgroup">Second tab</a></li>
-				<li><a href="#third-tab-b" role="tab">Third tab</a></li>
+				<li><a href="#first-tab-b1" role="tab" data-tabs-persist="group1:firsttab">First tab</a></li>
+				<li><a href="#second-tab-b1" role="tab" data-tabs-persist="group1:secondtab">Second tab</a></li>
+				<li><a href="#third-tab-b1" role="tab" data-tabs-persist="group1:thirdtab">Third tab</a></li>
 			</ol>
 
-			<div id="first-tab-b" role="tabpanel">
+			<div id="first-tab-b1" role="tabpanel">
 				First tab content
 			</div>
-			<div id="second-tab-b" role="tabpanel">
+			<div id="second-tab-b1" role="tabpanel">
 				Second tab content
 			</div>
-			<div id="third-tab-b" role="tabpanel">
+			<div id="third-tab-b1" role="tabpanel">
+				Third tab content
+			</div>
+		</seven-minute-tabs>
+
+		<seven-minute-tabs persist>
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab-b2" role="tab" data-tabs-persist="group1:firsttab">First tab</a></li>
+				<li><a href="#second-tab-b2" role="tab" data-tabs-persist="group1:secondtab">Second tab</a></li>
+				<li><a href="#third-tab-b2" role="tab" data-tabs-persist="group1:thirdtab">Third tab</a></li>
+			</ol>
+
+			<div id="first-tab-b2" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-b2" role="tabpanel">
+				Second tab content
+			</div>
+			<div id="third-tab-b2" role="tabpanel">
+				Third tab content
+			</div>
+		</seven-minute-tabs>
+
+		<p><strong>Separate persist group:</strong></p>
+
+		<seven-minute-tabs persist>
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab-b3" role="tab" data-tabs-persist="group2:firsttab">First tab</a></li>
+				<li><a href="#second-tab-b3" role="tab" data-tabs-persist="group2:secondtab">Second tab</a></li>
+				<li><a href="#third-tab-b3" role="tab" data-tabs-persist="group2:thirdtab">Third tab</a></li>
+			</ol>
+
+			<div id="first-tab-b3" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-b3" role="tabpanel">
+				Second tab content
+			</div>
+			<div id="third-tab-b3" role="tabpanel">
 				Third tab content
 			</div>
 		</seven-minute-tabs>

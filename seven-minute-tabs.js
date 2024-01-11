@@ -11,6 +11,20 @@ class SevenMinuteTabs extends HTMLElement {
     this._observer = new MutationObserver(this._init);
   }
 
+  get attrs() {
+    return {
+      prune: "prune",
+      persist: "persist",
+      persistGroupKey: "data-tabs-persist",
+    }
+  }
+
+  get props() {
+    return {
+      groupStorageKey: "seven-minute-tabs-persist-tabs",
+    }
+  }
+
   get keys() {
     return {
       end: 35,
@@ -32,6 +46,30 @@ class SevenMinuteTabs extends HTMLElement {
     };
   }
 
+  get storage() {
+    if(this.persistSelection === "session") {
+      return sessionStorage;
+    } else if(this.persistSelection) {
+      return localStorage;
+    }
+
+    // noop
+    return {
+      getItem() {},
+      setItem() {},
+    };
+  }
+
+  get persistSelection() {
+    if(!("_persist" in this)) {
+      this._persist = false;
+      if(this.hasAttribute(this.attrs.persist)) {
+        this._persist = this.getAttribute(this.attrs.persist) || true;
+      }
+    }
+    return this._persist;
+  }
+
   connectedCallback() {
     if (this.children.length) {
       this._init();
@@ -44,10 +82,8 @@ class SevenMinuteTabs extends HTMLElement {
     this.buttons = this.querySelectorAll('[role="tab"]');
     this.panels = this.querySelectorAll('[role="tabpanel"]');
     this.delay = this.determineDelay();
-    this.persistSelection = this.hasAttribute("persist");
-    this.pruneMismatchedButtons = this.hasAttribute("prune");
 
-    if(this.pruneMismatchedButtons) {
+    if(this.hasAttribute(this.attrs.prune)) {
       for(let button of this.buttons) {
         if(!this.querySelector(button.getAttribute("href"))) {
           (button.closest("li") || button)?.remove();
@@ -81,11 +117,11 @@ class SevenMinuteTabs extends HTMLElement {
     let hasASelectedButton = false;
 
     if(this.persistSelection) {
-      let persisted = sessionStorage.getItem("seven-minute-tabs-persisted");
+      let persisted = JSON.parse(this.storage.getItem(this.props.groupStorageKey));
       if(persisted) {
         for(let button of this.buttons) {
-          let compare = button.getAttribute("data-tabs-persist") || this.getTabIdFromHref(button.getAttribute("href"));
-          if(compare == persisted) {
+          let [key, value] = this.getStorageValues(button);
+          if(key && value && value == persisted[key]) {
             button.setAttribute("aria-selected", "true");
             hasASelectedButton = true;
             break;
@@ -238,6 +274,21 @@ class SevenMinuteTabs extends HTMLElement {
     }
   }
 
+  getStorageValues(tab) {
+    let [key, value] = (tab.getAttribute(this.attrs.persistGroupKey) || "").split(":");
+    if(key && value) {
+      return [key, value];
+    }
+    if(key) {
+      return ["__global", key]
+    }
+    // let href = tab.getAttribute("href");
+    // if(href) {
+    //   return ["__global", this.getTabIdFromHref(href)];
+    // }
+    return [,];
+  }
+
   // Activates any given tab panel
   activateTab (tab, setFocus) {
     if(tab.getAttribute("role") !== "tab") {
@@ -264,7 +315,17 @@ class SevenMinuteTabs extends HTMLElement {
       panel.removeAttribute('hidden');
 
       if(this.persistSelection) { // panel must exist to persist
-        sessionStorage.setItem("seven-minute-tabs-persisted", tab.getAttribute("data-tabs-persist") || this.getTabIdFromHref(tab.getAttribute("href")));
+        let obj = JSON.parse(this.storage.getItem(this.props.groupStorageKey));
+        if(!obj) {
+          obj = {};
+        }
+
+        let [key, value] = this.getStorageValues(tab);
+        if(key && value) {
+          obj[key] = value;
+        }
+
+        this.storage.setItem(this.props.groupStorageKey, JSON.stringify(obj));
       }
     }
 
