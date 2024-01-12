@@ -292,8 +292,9 @@ class SevenMinuteTabs extends HTMLElement {
     let persistGroupKey = activatedTab.getAttribute(SevenMinuteTabs.attrs.persistGroupKey);
     let tabs = Array.from(document.querySelectorAll(`[${SevenMinuteTabs.attrs.persistGroupKey}="${persistGroupKey}"]`)).filter(tab => tab !== activatedTab);
     for(let tab of tabs) {
-      let tabGroup = tab.closest(SevenMinuteTabs.tagName);
-      if(tabGroup.hasAttribute(SevenMinuteTabs.attrs.sync)) {
+      // work with `is-land--seven-minute-tabs` rename, undefined components will be set when they’re activated
+      let tabGroup = tab.closest(`[${SevenMinuteTabs.attrs.sync}]:defined`);
+      if(tabGroup) {
         tabGroup.activateTab(tab, false, true);
       }
     }
