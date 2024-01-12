@@ -4,46 +4,41 @@
 * Heavily modified to web component by Zach Leatherman
 */
 class SevenMinuteTabs extends HTMLElement {
+  static tagName = "seven-minute-tabs";
+
+  static attrs = {
+    persist: "persist",
+    persistGroupKey: "data-tabs-persist",
+    prune: "prune",
+    sync: "sync",
+  };
+
+  static props = {
+    groupStorageKey: "seven-minute-tabs-persist-tabs",
+  };
+
+  static keys = {
+    end: 35,
+    home: 36,
+    left: 37,
+    up: 38,
+    right: 39,
+    down: 40
+  };
+
+  // Add or substract depending on key pressed
+  static direction = {
+    37: -1,
+    38: -1,
+    39: 1,
+    40: 1
+  };
+
   constructor() {
     super();
 
     this._init = this._init.bind(this);
     this._observer = new MutationObserver(this._init);
-  }
-
-  get attrs() {
-    return {
-      prune: "prune",
-      persist: "persist",
-      persistGroupKey: "data-tabs-persist",
-    }
-  }
-
-  get props() {
-    return {
-      groupStorageKey: "seven-minute-tabs-persist-tabs",
-    }
-  }
-
-  get keys() {
-    return {
-      end: 35,
-      home: 36,
-      left: 37,
-      up: 38,
-      right: 39,
-      down: 40
-    };
-  }
-
-  // Add or substract depending on key pressed
-  get direction() {
-    return {
-      37: -1,
-      38: -1,
-      39: 1,
-      40: 1
-    };
   }
 
   get storage() {
@@ -63,8 +58,8 @@ class SevenMinuteTabs extends HTMLElement {
   get persistSelection() {
     if(!("_persist" in this)) {
       this._persist = false;
-      if(this.hasAttribute(this.attrs.persist)) {
-        this._persist = this.getAttribute(this.attrs.persist) || true;
+      if(this.hasAttribute(SevenMinuteTabs.attrs.persist)) {
+        this._persist = this.getAttribute(SevenMinuteTabs.attrs.persist) || true;
       }
     }
     return this._persist;
@@ -83,7 +78,7 @@ class SevenMinuteTabs extends HTMLElement {
     this.panels = this.querySelectorAll('[role="tabpanel"]');
     this.delay = this.determineDelay();
 
-    if(this.hasAttribute(this.attrs.prune)) {
+    if(this.hasAttribute(SevenMinuteTabs.attrs.prune)) {
       for(let button of this.buttons) {
         if(!this.querySelector(button.getAttribute("href"))) {
           (button.closest("li") || button)?.remove();
@@ -117,7 +112,7 @@ class SevenMinuteTabs extends HTMLElement {
     let hasASelectedButton = false;
 
     if(this.persistSelection) {
-      let persisted = JSON.parse(this.storage.getItem(this.props.groupStorageKey));
+      let persisted = JSON.parse(this.storage.getItem(SevenMinuteTabs.props.groupStorageKey));
       if(persisted) {
         for(let button of this.buttons) {
           let [key, value] = this.getStorageValues(button);
@@ -192,12 +187,12 @@ class SevenMinuteTabs extends HTMLElement {
     var key = event.keyCode;
 
     switch (key) {
-      case this.keys.end:
+      case SevenMinuteTabs.keys.end:
         event.preventDefault();
         // Activate last tab
         this.activateTab(this.buttons[this.buttons.length - 1]);
         break;
-      case this.keys.home:
+      case SevenMinuteTabs.keys.home:
         event.preventDefault();
         // Activate first tab
         this.activateTab(this.buttons[0]);
@@ -205,8 +200,8 @@ class SevenMinuteTabs extends HTMLElement {
 
       // Up and down are in keydown
       // because we need to prevent page scroll >:)
-      case this.keys.up:
-      case this.keys.down:
+      case SevenMinuteTabs.keys.up:
+      case SevenMinuteTabs.keys.down:
         this.determineOrientation(event);
         break;
     };
@@ -217,8 +212,8 @@ class SevenMinuteTabs extends HTMLElement {
     var key = event.keyCode;
 
     switch (key) {
-      case this.keys.left:
-      case this.keys.right:
+      case SevenMinuteTabs.keys.left:
+      case SevenMinuteTabs.keys.right:
         this.determineOrientation(event);
         break;
     };
@@ -233,13 +228,13 @@ class SevenMinuteTabs extends HTMLElement {
     var proceed = false;
 
     if (vertical) {
-      if (key === this.keys.up || key === this.keys.down) {
+      if (key === SevenMinuteTabs.keys.up || key === SevenMinuteTabs.keys.down) {
         event.preventDefault();
         proceed = true;
       };
     }
     else {
-      if (key === this.keys.left || key === this.keys.right) {
+      if (key === SevenMinuteTabs.keys.left || key === SevenMinuteTabs.keys.right) {
         proceed = true;
       };
     };
@@ -258,16 +253,16 @@ class SevenMinuteTabs extends HTMLElement {
       button.addEventListener('focus', this.focusEventHandler.bind(this));
     };
 
-    if (this.direction[pressed]) {
+    if (SevenMinuteTabs.direction[pressed]) {
       var target = event.target;
       if (target.index !== undefined) {
-        if (this.buttons[target.index + this.direction[pressed]]) {
-          this.buttons[target.index + this.direction[pressed]].focus();
+        if (this.buttons[target.index + SevenMinuteTabs.direction[pressed]]) {
+          this.buttons[target.index + SevenMinuteTabs.direction[pressed]].focus();
         }
-        else if (pressed === this.keys.left || pressed === this.keys.up) {
+        else if (pressed === SevenMinuteTabs.keys.left || pressed === SevenMinuteTabs.keys.up) {
           this.focusLastTab();
         }
-        else if (pressed === this.keys.right || pressed == this.keys.down) {
+        else if (pressed === SevenMinuteTabs.keys.right || pressed == SevenMinuteTabs.keys.down) {
           this.focusFirstTab();
         }
       }
@@ -275,7 +270,7 @@ class SevenMinuteTabs extends HTMLElement {
   }
 
   getStorageValues(tab) {
-    let [key, value] = (tab.getAttribute(this.attrs.persistGroupKey) || "").split(":");
+    let [key, value] = (tab.getAttribute(SevenMinuteTabs.attrs.persistGroupKey) || "").split(":");
     if(key && value) {
       return [key, value];
     }
@@ -289,13 +284,30 @@ class SevenMinuteTabs extends HTMLElement {
     return [,];
   }
 
+  syncRelatedTabs(activatedTab) {
+    if(!this.hasAttribute(SevenMinuteTabs.attrs.sync)) {
+      return;
+    }
+
+    let persistGroupKey = activatedTab.getAttribute(SevenMinuteTabs.attrs.persistGroupKey);
+    let tabs = Array.from(document.querySelectorAll(`[${SevenMinuteTabs.attrs.persistGroupKey}="${persistGroupKey}"]`)).filter(tab => tab !== activatedTab);
+    for(let tab of tabs) {
+      let tabGroup = tab.closest(SevenMinuteTabs.tagName);
+      if(tabGroup.hasAttribute(SevenMinuteTabs.attrs.sync)) {
+        tabGroup.activateTab(tab, false, true);
+      }
+    }
+  }
+
   // Activates any given tab panel
-  activateTab (tab, setFocus) {
+  activateTab (tab, setFocus = true, viaSync = false) {
     if(tab.getAttribute("role") !== "tab") {
       tab = tab.closest('[role="tab"]');
     }
 
-    setFocus = setFocus || true;
+    if(!viaSync) {
+      this.syncRelatedTabs(tab);
+    }
 
     // Deactivate all other tabs
     this.deactivateTabs();
@@ -315,7 +327,7 @@ class SevenMinuteTabs extends HTMLElement {
       panel.removeAttribute('hidden');
 
       if(this.persistSelection) { // panel must exist to persist
-        let obj = JSON.parse(this.storage.getItem(this.props.groupStorageKey));
+        let obj = JSON.parse(this.storage.getItem(SevenMinuteTabs.props.groupStorageKey));
         if(!obj) {
           obj = {};
         }
@@ -325,7 +337,7 @@ class SevenMinuteTabs extends HTMLElement {
           obj[key] = value;
         }
 
-        this.storage.setItem(this.props.groupStorageKey, JSON.stringify(obj));
+        this.storage.setItem(SevenMinuteTabs.props.groupStorageKey, JSON.stringify(obj));
       }
     }
 
@@ -392,4 +404,4 @@ class SevenMinuteTabs extends HTMLElement {
   }
 }
 
-window.customElements.define("seven-minute-tabs", SevenMinuteTabs);
+window.customElements.define(SevenMinuteTabs.tagName, SevenMinuteTabs);
