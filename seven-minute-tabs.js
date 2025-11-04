@@ -11,6 +11,7 @@ class SevenMinuteTabs extends HTMLElement {
     persistGroupKey: "data-tabs-persist",
     prune: "prune",
     sync: "sync",
+    autoheight: "autoheight",
   };
 
   static props = {
@@ -92,6 +93,9 @@ class SevenMinuteTabs extends HTMLElement {
 
     // This order is important
     this.initButtons();
+    if(this.getAttribute(SevenMinuteTabs.attrs.autoheight) !== "skip") {
+      this.initPanelHeights();
+    }
     this.initPanels();
   }
 
@@ -171,6 +175,19 @@ class SevenMinuteTabs extends HTMLElement {
         panel.setAttribute("aria-labelledby", this.getButtonIdFromTabId(tabId));
       }
     }
+  }
+
+  initPanelHeights() {
+    let minHeight = 0;
+
+    for(let panel of this.panels) {
+      let height = panel.offsetHeight;
+      if(height > minHeight) {
+        minHeight = height;
+      }
+    }
+
+		this.style.setProperty("--smt-height", `${minHeight}px`);
   }
 
   clickEventListener(event) {
@@ -277,10 +294,6 @@ class SevenMinuteTabs extends HTMLElement {
     if(key) {
       return ["__global", key]
     }
-    // let href = tab.getAttribute("href");
-    // if(href) {
-    //   return ["__global", this.getTabIdFromHref(href)];
-    // }
     return [,];
   }
 
