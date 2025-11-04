@@ -3,11 +3,21 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title></title>
+		<title>seven-minute-tabs Web Component Demo</title>
+		<style>
+			html {
+				font-family: system-ui, sans-serif;
+			}
+		</style>
 		<script type="module" src="seven-minute-tabs.js" async></script>
 	</head>
 	<body>
-		<h1>Seven Minute Tabs</h1>
+		<h1>Seven Minute Tabs Web Component Demo</h1>
+
+		<p>Why is this unstyled? Read more at the <a href="https://github.com/zachleat/seven-minute-tabs">documentation on GitHub</a></p>
+		<hr>
+
+		<h2>Vanilla</h2>
 
 		<seven-minute-tabs>
 			<ol role="tablist" aria-label="What does this tab chooser do?">
@@ -84,7 +94,7 @@
 			</div>
 		</seven-minute-tabs>
 
-		<h2>Prune buttons that don’t have a matching panel</h2>
+		<h2>Prune buttons that don’t have a matching panel (starts with three tab links)</h2>
 		<seven-minute-tabs prune>
 			<div role="tablist" aria-label="What does this tab chooser do?">
 				<a href="#first-tab-c" role="tab">First tab</a>
@@ -100,6 +110,20 @@
 			</div>
 		</seven-minute-tabs>
 
-		<p>Why is this unstyled? Read more at the <a href="https://github.com/zachleat/seven-minute-tabs">documentation on GitHub</a></p>
+		<h2>Autoheight option</h2>
+		<seven-minute-tabs autoheight>
+			<div role="tablist" aria-label="What does this tab chooser do?">
+				<a href="#first-tab-d" role="tab">First tab</a>
+				<a href="#second-tab-d" role="tab">Second tab</a>
+			</div>
+
+			<div id="first-tab-d" role="tabpanel" style="min-height: var(--smt-height)"">
+				First tab content
+			</div>
+			<div id="second-tab-d" role="tabpanel" style="min-height: var(--smt-height)">
+				Second tab content<br><br><br><br>Super long tab content<br><br><br><br>Super long tab content<br><br><br><br>Super long tab content<br><br><br><br>Super long tab content
+			</div>
+		</seven-minute-tabs>
+		<p>Text after the component (to show the height above without using CSS)</p>
 	</body>
 </html>
