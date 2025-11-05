@@ -6,8 +6,9 @@ seven-minute-tabs {
   --smt-background: hsla(0 0% 0% / .04);
   --smt-intent: rgba(0,0,0,.06);
 
-  --smt-border-size: 0.125rem; /* 2px /16 */
-  --smt-padding-block: .3125rem;
+  --smt-border-size: 0.125em; /* 2px /16 */
+  --smt-border-radius: .3125em;
+  --smt-padding-block: .3125em;
   --smt-padding-inline: 1rem;
 }
 @media (prefers-color-scheme: dark) {
@@ -22,7 +23,7 @@ seven-minute-tabs {
 seven-minute-tabs {
 	display: block;
   background-color: var(--smt-background);
-  border-radius: .3125em;
+  border-radius: var(--smt-border-radius);
   overflow: hidden;
 
   [role="tablist"] {
