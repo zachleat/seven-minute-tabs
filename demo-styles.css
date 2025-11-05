@@ -2,38 +2,32 @@
 
 seven-minute-tabs {
   --smt-active: hsl(241, 100%, 47%);
-	--smt-border: hsl(0 0% 0% / .26);
-  --smt-background: hsla(0 0% 0% / .04);
+	--smt-passiveborder: hsl(0 0% 0% / .26);
   --smt-intent: rgba(0,0,0,.06);
 
   --smt-border-size: 0.125em; /* 2px /16 */
-  --smt-border-radius: .3125em;
   --smt-padding-block: .3125em;
   --smt-padding-inline: 1rem;
 }
 @media (prefers-color-scheme: dark) {
   seven-minute-tabs {
     --smt-active: hsl(241, 85%, 47%);
-    --smt-border: hsl(0 100% 100% / .15);
-    --smt-background: hsla(0 0% 0% / .35);
+    --smt-passiveborder: hsl(0 100% 100% / .15);
     --smt-intent: rgba(255,255,255,.1);
   }
 }
 
 seven-minute-tabs {
 	display: block;
-  background-color: var(--smt-background);
-  border-radius: var(--smt-border-radius);
-  overflow: hidden;
 
   [role="tablist"] {
     display: flex;
+    flex-wrap: wrap;
     line-height: 1.8;
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow-x: auto;
-    border-bottom: 1px solid var(--smt-border);
+    border-bottom: 1px solid var(--smt-passiveborder);
   }
 
   [role="tabpanel"] {
@@ -66,7 +60,7 @@ seven-minute-tabs {
 
 /* Tabs on bottom */
 seven-minute-tabs [role="tablist"]:where(:last-child) {
-  border-top: 1px solid var(--smt-border);
+  border-top: 1px solid var(--smt-passiveborder);
   border-bottom: none;
 
   [role="tab"] {
