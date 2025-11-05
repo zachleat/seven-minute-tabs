@@ -27,7 +27,8 @@ seven-minute-tabs {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid var(--smt-passiveborder);
+    border-block: 1px solid var(--smt-passiveborder);
+    border-block-start-width: 0;
   }
 
   [role="tabpanel"] {
@@ -59,9 +60,9 @@ seven-minute-tabs {
 }
 
 /* Tabs on bottom */
-seven-minute-tabs [role="tablist"]:where(:last-child) {
-  border-top: 1px solid var(--smt-passiveborder);
-  border-bottom: none;
+seven-minute-tabs [role="tablist"]:is(:last-child) {
+  border-block-start-width: 1px;
+  border-block-end-width: 0;
 
   [role="tab"] {
     border-block-start-width: var(--smt-border-size);
