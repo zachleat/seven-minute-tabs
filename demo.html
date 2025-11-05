@@ -5,16 +5,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>seven-minute-tabs Web Component Demo</title>
 		<style>
-			html {
-				font-family: system-ui, sans-serif;
+		html {
+			font-family: system-ui, sans-serif;
+		}
+		@media (prefers-color-scheme: dark) {
+			html { 
+				color: #ddd;
+				background-color: #222;
 			}
 		</style>
+		<link rel="stylesheet" href="demo-styles.css">
 		<script type="module" src="seven-minute-tabs.js" async></script>
 	</head>
 	<body>
 		<h1>Seven Minute Tabs Web Component Demo</h1>
 
-		<p>Why is this unstyled? Read more at the <a href="https://github.com/zachleat/seven-minute-tabs">documentation on GitHub</a></p>
+		<p>All visual styles shown here are decoupled from the component (completely optional: try removing <code>demo-styles.css</code>). Read more at the <a href="https://github.com/zachleat/seven-minute-tabs">documentation on GitHub</a></p>
 		<hr>
 
 		<h2>Vanilla</h2>
@@ -37,7 +43,58 @@
 			</div>
 		</seven-minute-tabs>
 
-		<h2>Persists across page views</h2>
+		<p>Lots of tabs to test overflow at small widths</p>
+
+		<seven-minute-tabs>
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab-wrap" role="tab">First tab</a></li>
+				<li><a href="#second-tab-wrap" role="tab">Second tab</a></li>
+				<li><a href="#third-tab-wrap" role="tab">Third tab</a></li>
+				<li><a href="#fourth-tab-wrap" role="tab">Fourth tab</a></li>
+				<li><a href="#fifth-tab-wrap" role="tab">Fifth tab</a></li>
+				<li><a href="#sixth-tab-wrap" role="tab">Sixth tab</a></li>
+			</ol>
+
+			<div id="first-tab-wrap" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-wrap" role="tabpanel">
+				Second tab content
+			</div>
+			<div id="third-tab-wrap" role="tabpanel">
+				Third tab content
+			</div>
+			<div id="fourth-tab-wrap" role="tabpanel">
+				Fourth tab content
+			</div>
+			<div id="fifth-tab-wrap" role="tabpanel">
+				Fifth tab content
+			</div>
+			<div id="sixth-tab-wrap" role="tabpanel">
+				Sixth tab content
+			</div>
+		</seven-minute-tabs>
+
+		<h2>Tabs on bottom</h2>
+
+		<seven-minute-tabs>
+			<div id="first-tab-bottom" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-bottom" role="tabpanel">
+				Second tab content
+			</div>
+			<div id="third-tab-bottom" role="tabpanel">
+				Third tab content
+			</div>
+			<ol role="tablist" aria-label="What does this tab chooser do?">
+				<li><a href="#first-tab-bottom" role="tab">First tab</a></li>
+				<li><a href="#second-tab-bottom" role="tab">Second tab</a></li>
+				<li><a href="#third-tab-bottom" role="tab">Third tab</a></li>
+			</ol>
+		</seven-minute-tabs>
+
+		<h2>Active tab syncs to group, persists across pageviews</h2>
 		<seven-minute-tabs persist sync>
 			<ol role="tablist" aria-label="What does this tab chooser do?">
 				<li><a href="#first-tab-b1" role="tab" data-tabs-persist="group1:firsttab">First tab</a></li>
@@ -110,7 +167,8 @@
 			</div>
 		</seven-minute-tabs>
 
-		<h2>Autoheight option</h2>
+		<h2><code>autoheight</code> option</h2>
+		<p>Unlocks consistent height when switching tabs.</p>
 		<seven-minute-tabs autoheight>
 			<div role="tablist" aria-label="What does this tab chooser do?">
 				<a href="#first-tab-d" role="tab">First tab</a>
