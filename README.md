@@ -19,6 +19,7 @@ npm install @zachleat/seven-minute-tabs
 * Adds `tabindex` using JavaScript so that content remains accessibile without JavaScript.
 * Arrow key support. Adjusts for vertical `aria-orientation` values.
 * Home/end key support.
+* Supports nested tab components.
 * (Option to delete tabs was removed from the original example)
 
 ## Changelog

@@ -6,9 +6,6 @@
   },
   "description": "A no-theme tabs component based heavily on an example from the WAI-ARIA Authoring Practices documentation.",
   "main": "seven-minute-tabs.js",
-  "scripts": {
-    "start": "npx http-server ."
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zachleat/seven-minute-tabs.git"

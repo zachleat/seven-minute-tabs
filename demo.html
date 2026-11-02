@@ -90,6 +90,34 @@
 			</div>
 		</seven-minute-tabs>
 
+		<h2>Nested tabs</h2>
+
+		<seven-minute-tabs>
+			<ol role="tablist" aria-label="Outer tabs">
+				<li><a href="#first-tab-outer" role="tab">First tab</a></li>
+				<li><a href="#second-tab-outer" role="tab">Second tab</a></li>
+			</ol>
+
+			<div id="first-tab-outer" role="tabpanel">
+				<seven-minute-tabs>
+					<ol role="tablist" aria-label="Inner tabs">
+						<li><a href="#first-tab-inner" role="tab">Inner first tab</a></li>
+						<li><a href="#second-tab-inner" role="tab">Inner second tab</a></li>
+					</ol>
+
+					<div id="first-tab-inner" role="tabpanel">
+						Inner first tab content
+					</div>
+					<div id="second-tab-inner" role="tabpanel">
+						Inner second tab content
+					</div>
+				</seven-minute-tabs>
+			</div>
+			<div id="second-tab-outer" role="tabpanel">
+				Second tab content
+			</div>
+		</seven-minute-tabs>
+
 		<h2>Tabs on bottom</h2>
 
 		<seven-minute-tabs>

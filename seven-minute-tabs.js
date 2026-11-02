@@ -73,10 +73,15 @@ class SevenMinuteTabs extends HTMLElement {
     this._observer.observe(this, { childList: true });
   }
 
+  // Excludes elements owned by nested tab components (`localName` supports renamed tags).
+  _queryOwn(selector) {
+    return Array.from(this.querySelectorAll(selector)).filter(el => el.parentElement.closest(this.localName) === this);
+  }
+
   _init() {
-    this.tablist = this.querySelector('[role="tablist"]');
-    this.buttons = this.querySelectorAll('[role="tab"]');
-    this.panels = this.querySelectorAll('[role="tabpanel"]');
+    this.tablist = this._queryOwn('[role="tablist"]')[0];
+    this.buttons = this._queryOwn('[role="tab"]');
+    this.panels = this._queryOwn('[role="tabpanel"]');
     this.delay = this.determineDelay();
 
     if(this.hasAttribute(SevenMinuteTabs.attrs.prune)) {
@@ -163,7 +168,7 @@ class SevenMinuteTabs extends HTMLElement {
   }
 
   initPanels() {
-    let selectedPanelId = this.querySelector('[role="tab"][aria-selected="true"]').getAttribute("aria-controls");
+    let selectedPanelId = this.buttons.find(btn => btn.getAttribute("aria-selected") === "true").getAttribute("aria-controls");
     for(let panel of this.panels) {
       if(panel.getAttribute("id") !== selectedPanelId) {
         panel.setAttribute("hidden", "");
