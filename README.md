@@ -20,10 +20,12 @@ npm install @zachleat/seven-minute-tabs
 * Arrow key support. Adjusts for vertical `aria-orientation` values.
 * Home/end key support.
 * Supports nested tab components.
+* Selects the tab matching (or containing) the URL hash on load and on `hashchange`.
 * (Option to delete tabs was removed from the original example)
 
 ## Changelog
 
+* `v3.1.0` Select the tab matching the URL hash on load and on `hashchange`. Add `hash` attribute to write the active tab to the URL hash (via `history.replaceState`).
 * `v3.0.3` Add `autoheight` attribute to set a `--smt-height` CSS Custom Property (maximum height across all tabs) to maintain a consistent component height when switching tabs (e.g. `seven-minute-tabs [role="tabpanel"]) { min-height: var(--smt-height); }`)
 * `v3.0.1` Add `sync` attribute to activate all other matching tabs (in other tab groups) with the same `data-tab-persist="group:value"`.
 * `v3.0.0` New tab selection persistence (via `persist` attribute) logic with `data-tab-persist="group:value"`. Defaults to `localStorage`. Use `persist="session"` for `sessionStorage`.

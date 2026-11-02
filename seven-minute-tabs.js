@@ -12,6 +12,7 @@ class SevenMinuteTabs extends HTMLElement {
     prune: "prune",
     sync: "sync",
     autoheight: "autoheight",
+    hash: "hash",
   };
 
   static props = {
@@ -40,6 +41,7 @@ class SevenMinuteTabs extends HTMLElement {
 
     this._init = this._init.bind(this);
     this._observer = new MutationObserver(this._init);
+    this._onHashChange = this._onHashChange.bind(this);
   }
 
   get storage() {
@@ -71,6 +73,55 @@ class SevenMinuteTabs extends HTMLElement {
       this._init();
     }
     this._observer.observe(this, { childList: true });
+    window.addEventListener("hashchange", this._onHashChange);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("hashchange", this._onHashChange);
+  }
+
+  _onHashChange() {
+    let button = this.getButtonFromHash();
+    if(button) {
+      this.activateTab(button, false);
+    }
+  }
+
+  getHashTarget() {
+    try {
+      let id = decodeURIComponent(location.hash.slice(1));
+      return id ? document.getElementById(id) : null;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  getPanelForButton(button) {
+    let id = button.getAttribute("aria-controls") || this.getTabIdFromHref(button.getAttribute("href"));
+    return document.getElementById(id);
+  }
+
+  // Matches the panel itself or anything inside it (headings, nested tabs).
+  getButtonFromHash() {
+    let target = this.getHashTarget();
+    if(!target || !this.buttons) {
+      return;
+    }
+    return this.buttons.find(button => this.getPanelForButton(button)?.contains(target));
+  }
+
+  getPersistedButton() {
+    if(!this.persistSelection) {
+      return;
+    }
+    let persisted = JSON.parse(this.storage.getItem(SevenMinuteTabs.props.groupStorageKey));
+    if(!persisted) {
+      return;
+    }
+    return this.buttons.find(button => {
+      let [key, value] = this.getStorageValues(button);
+      return key && value && value == persisted[key];
+    });
   }
 
   // Excludes elements owned by nested tab components (`localName` supports renamed tags).
@@ -118,36 +169,16 @@ class SevenMinuteTabs extends HTMLElement {
 
   initButtons() {
     let count = 0;
-    let hasASelectedButton = false;
-
-    if(this.persistSelection) {
-      let persisted = JSON.parse(this.storage.getItem(SevenMinuteTabs.props.groupStorageKey));
-      if(persisted) {
-        for(let button of this.buttons) {
-          let [key, value] = this.getStorageValues(button);
-          if(key && value && value == persisted[key]) {
-            button.setAttribute("aria-selected", "true");
-            hasASelectedButton = true;
-            break;
-          }
-        }
-      }
-    }
-
-    if(!hasASelectedButton) {
-      hasASelectedButton = Array.from(this.buttons).filter(btn => btn.getAttribute("aria-selected") === "true").length > 0;
-    }
+    let selected = this.getButtonFromHash()
+      || this.getPersistedButton()
+      || this.buttons.find(btn => btn.getAttribute("aria-selected") === "true")
+      || this.buttons[0];
 
     for(let button of this.buttons) {
-      let isSelected = button.getAttribute("aria-selected") === "true";
-      if(!hasASelectedButton && count === 0) {
-        isSelected = true;
-      }
+      let isSelected = button === selected;
 
       // Attributes
-      if(!button.hasAttribute("aria-selected")) {
-        button.setAttribute("aria-selected", isSelected);
-      }
+      button.setAttribute("aria-selected", isSelected);
       button.setAttribute("tabindex", isSelected ? "0" : "-1");
 
       let tabId = this.getTabIdFromHref(button.getAttribute("href"));
@@ -344,6 +375,11 @@ class SevenMinuteTabs extends HTMLElement {
     var panel = document.getElementById(controls);
     if(panel) {
       panel.removeAttribute('hidden');
+
+      // Leaves deeper hashes (inside this panel) alone.
+      if(!viaSync && this.hasAttribute(SevenMinuteTabs.attrs.hash) && !panel.contains(this.getHashTarget())) {
+        history.replaceState(history.state, "", `#${controls}`);
+      }
 
       if(this.persistSelection) { // panel must exist to persist
         let obj = JSON.parse(this.storage.getItem(SevenMinuteTabs.props.groupStorageKey));

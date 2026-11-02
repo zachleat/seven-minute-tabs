@@ -226,5 +226,26 @@
 			</div>
 		</seven-minute-tabs>
 		<p>Text after the component (to show the height above without using CSS)</p>
+
+		<h2><code>hash</code> option</h2>
+		<p>Writes the active tab to the URL hash. Try <a href="#second-tab-e">a link to the second tab</a>, <a href="#third-tab-e-heading">a heading inside the third tab</a> or reloading after switching tabs.</p>
+		<seven-minute-tabs hash>
+			<div role="tablist" aria-label="What does this tab chooser do?">
+				<a href="#first-tab-e" role="tab">First tab</a>
+				<a href="#second-tab-e" role="tab">Second tab</a>
+				<a href="#third-tab-e" role="tab">Third tab</a>
+			</div>
+
+			<div id="first-tab-e" role="tabpanel">
+				First tab content
+			</div>
+			<div id="second-tab-e" role="tabpanel">
+				Second tab content
+			</div>
+			<div id="third-tab-e" role="tabpanel">
+				<h3 id="third-tab-e-heading">Third tab heading</h3>
+				Third tab content
+			</div>
+		</seven-minute-tabs>
 	</body>
 </html>
