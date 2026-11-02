@@ -84,6 +84,10 @@ class SevenMinuteTabs extends HTMLElement {
     let button = this.getButtonFromHash();
     if(button) {
       this.activateTab(button, false);
+      // The browser's own fragment scroll ran while the panel was still hidden.
+      if(this.getAttribute(SevenMinuteTabs.attrs.hash) === "scrollto") {
+        this.getHashTarget()?.scrollIntoView();
+      }
     }
   }
 
